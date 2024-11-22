@@ -1,24 +1,38 @@
-import '.components/Nav.css';
+
+import { Link, useLocation } from 'react-router-dom';
 
 const Nav = () => {
+  const currentPage = useLocation().pathname;
+  
   return (
-    <nav className="nav">
-      <ul>
-        <li className="nav-item">
-          <a href="/" className="nav-link active">Home</a>
+    <nav>
+      <ul className='nav nav-tabs'>
+        <li className='nav-item'>
+          <h2>
+            <Link to="/" className={currentPage=== '/' ? 'nav-link active' : 'nav-link'}>Home</Link>
+          </h2>
+          
         </li>
-        <li className="nav-item">
-          <a href="/saved" className="nav-link">Saved Candidates</a>
+        
+        <li className='nav-item'>
+          <h2>
+            <Link to='/PotentialCandidates' className={currentPage=== '/PotentialCandidates' ? 'nav-link active' : 'nav-link'}>Potential Candidates</Link>
+          </h2>
+          
+        </li>
+        <li>
+          <Link to="/saved">Saved Candidates</Link>
         </li>
       </ul>
     </nav>
   );
   
   // TODO: Add necessary code to display the navigation bar and link between the pages
-  return (
-
-    <div>Nav</div>
-  )
+  // Remove the unreachable code block
+  // return (
+  
+  //   <div>Nav</div>
+  // )
 };
 
 
