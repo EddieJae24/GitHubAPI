@@ -1,7 +1,7 @@
 
-// const key = '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'
+const key = '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'
 // console.log('Key:', key);
-let key = import.meta.env.VITE_GITHUB_TOKEN;
+// const key = import.meta.env.VITE_GITHUB_TOKEN;
 
 const searchGithub = async () => {
   try {
@@ -28,8 +28,6 @@ const searchGithub = async () => {
     return [];
   }
 };
-
-
 
 
 if (!key) {
