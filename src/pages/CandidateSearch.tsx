@@ -4,43 +4,50 @@ import type Candidate  from '../interfaces/Candidate.interface';
 
 // import savedCandidates from './SavedCandidates';
 
-function CandidateSearch() {
-  const [currentCandidate, setCurrentCandidate] = useState<Candidate | null>(null);
-
+const CandidateSearch = () => {
+  const [currentCandidate, setCurrentCandidate] = useState<Candidate | null>
+        ({id: 0, 
+          login: '', 
+          avatar_url: '', 
+          html_url:''});
+            
   const [searchInput, setSearchInput] = useState<string>('');
-
-  const addToCandidates = (candidate: Candidate) => {let parsedCandidates = [];const savedCandidates = localStorage.getItem('storedCandidates'); 
-  if (typeof savedCandidates === 'string') {parsedCandidates = JSON.parse(savedCandidates);}parsedCandidates.push(candidate);localStorage.setItem('storedCandidates', JSON.stringify(parsedCandidates));};
-
- 
-
   const [candidates, setCandidates] = useState<Candidate[]>([]);
-  // const [currentCandidate, setCurrentCandidate] = useState<Candidate | null>(null);
-  // const [, setSavedCandidates] = useState<Candidate[]>([]);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState<string | null>(null);
-  // const [username, setUsername] = useState<string>('');
-
+  const addToCandidates = (candidate: Candidate) => {
+    let parsedCandidates: Candidate[] = [];
+    
+    // Retrieve existing candidates from localStorage
+    const savedCandidates = localStorage.getItem('storedCandidates');
+    
+    if (savedCandidates) {
+      parsedCandidates = JSON.parse(savedCandidates); // Parse existing candidates
+    }
   
-const searchForCandidateByUsername = async (event:FormEvent, username: string) => {
-  try {
-    event.preventDefault();
-    const candidate = await searchGithubUser(username);
-    setCurrentCandidate(candidate);
-    addToCandidates(candidate);
-  } catch (error) {
-    console.error(error);
-  };
-  
-};
-
-
-
-  const handleSaveCandidate = () => {
-    if (currentCandidate) {
-      addToCandidates(currentCandidate);
+    // Avoid duplicate candidates
+    if (!parsedCandidates.some((saved) => saved.id === candidate.id)) {
+      parsedCandidates.push(candidate); // Add new candidate
+      localStorage.setItem('storedCandidates', JSON.stringify(parsedCandidates)); // Save updated list
+      alert('Candidate saved successfully!');
+    } else {
+      alert('Candidate is already saved.');
     }
   };
+
+
+  const searchForCandidateByUsername = async (event:FormEvent, username: string) => {
+    try {
+    event.preventDefault();
+    const data: Candidate = await searchGithubUser(username);
+    setCurrentCandidate(data);} 
+    
+    catch (error) {console.error(error);};
+    };
+
+    // Save the current candidate to the list of saved candidates
+  const handleSaveCandidate = () => {
+    if (currentCandidate) {
+      addToCandidates(currentCandidate); 
+    };};
 
   const nextCandidate = () => {
     if (candidates.length > 1) {
@@ -53,19 +60,6 @@ const searchForCandidateByUsername = async (event:FormEvent, username: string) =
     }
   };
 
-  // const searchUser = async () => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const user = await searchGithubUser(username);
-  //     setCurrentCandidate(user);
-  //     setCandidates([]); // Clear other candidates to show the specific user only
-  //   } catch (err) {
-  //     setError('User not found or an error occurred');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   useEffect(() => {
     const loadCandidates = async () => {
@@ -109,7 +103,7 @@ const searchForCandidateByUsername = async (event:FormEvent, username: string) =
         </div>
       </form>
 
-        {currentCandidate ? (
+      {currentCandidate ? (
           <div>
             <img src={currentCandidate.avatar_url ?? ''} alt={currentCandidate.name ?? currentCandidate.login ?? ''} width="100" />
             <h2>{currentCandidate.name || currentCandidate.login}</h2>
@@ -117,11 +111,12 @@ const searchForCandidateByUsername = async (event:FormEvent, username: string) =
             <p>Location: {currentCandidate.location || 'Not provided'}</p>
             <p>Email: {currentCandidate.email || 'Not provided'}</p>
             <p>Company: {currentCandidate.company || 'Not provided'}</p>
+            <p>Bio: {currentCandidate.bio || 'Not provided'}</p>
             <a href={currentCandidate.html_url ?? ''} target="_blank" rel="noopener noreferrer">
               GitHub Profile
             </a>
             <div>
-              <button onClick={handleSaveCandidate}>&#43;</button>
+              <button onClick= {() => handleSaveCandidate()}>&#43;</button>
               <button onClick={nextCandidate}>&#8722;</button>
             </div>
           </div>
@@ -131,11 +126,12 @@ const searchForCandidateByUsername = async (event:FormEvent, username: string) =
     
     </section>
     </>
-    
   );
-}
+};
+
 
 export default CandidateSearch;
+
 
 
 

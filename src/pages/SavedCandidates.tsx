@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Candidate } from '../interfaces/Candidate.interface';
+import Candidate from '../interfaces/Candidate.interface';
+
 
 function SavedCandidates() {
   const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
 
   useEffect(() => {
-    const storedCandidates = JSON.parse(localStorage.getItem('savedCandidates') || '[]');
+    const storedCandidates = JSON.parse(localStorage.getItem('storedCandidates') || '[]');
     setSavedCandidates(storedCandidates);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('savedCandidates', JSON.stringify(savedCandidates));
+    localStorage.setItem('storedCandidates', JSON.stringify(savedCandidates));
   }, [savedCandidates]);
 
   const removeCandidate = (id: number) => {
@@ -31,7 +32,7 @@ function SavedCandidates() {
               <th>Email</th>
               <th>Location</th>
               <th>Company</th>
-              <th>Profile</th>
+              <th>GitHub Profile</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -43,6 +44,7 @@ function SavedCandidates() {
                   <img src={candidate.avatar_url ?? ''} alt={candidate.name ?? ''} width="50" />
                 </td>
                 <td>{candidate.name || candidate.login}</td>
+                <td>{candidate.login}</td>
                 <td>{candidate.email || 'Not provided'}</td>
                 <td>{candidate.location || 'Not provided'}</td>
                 <td>{candidate.company || 'Not provided'}</td>
@@ -52,7 +54,7 @@ function SavedCandidates() {
                   </a>
                 </td>
                 <td>
-                  <button onClick={() => removeCandidate(candidate.id ?? 0)}>-</button>
+                  <button className='reject-btn' onClick={() => removeCandidate(candidate.id ?? 0)}>-</button>
                 </td>
               </tr>
             ))}
