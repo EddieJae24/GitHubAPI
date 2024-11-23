@@ -1,12 +1,18 @@
+
+// const key = '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'
+// console.log('Key:', key);
+let key = import.meta.env.VITE_GITHUB_TOKEN;
+
 const searchGithub = async () => {
   try {
+    
     const start = Math.floor(Math.random() * 100000000) + 1;
-    console.log(import.meta.env);
+    console.log('Start:', start);
     const response = await fetch(
       `https://api.github.com/users?since=${start}`,
       {
         headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          Authorization: `Bearer ${key}`,
         },
       }
     );
@@ -23,21 +29,33 @@ const searchGithub = async () => {
   }
 };
 
+
+
+
+if (!key) {
+  console.error('GitHub token is missing. Please check your .env file.');
+  throw new Error('Unauthorized: Missing GitHub token.');
+}
+
 const searchGithubUser = async (username: string) => {
+ 
   try {
     const response = await fetch(`https://api.github.com/users/${username}`, {
       headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        Authorization: `Bearer ${key}`, 
       },
     });
+    
     const data = await response.json();
+
     if (!response.ok) {
-      throw new Error('invalid API response, check the network tab');
+      throw new Error(`GitHUb API Error: ${response.status} ${response.statusText}`);
     }
     return data;
-  } catch (err) {
-    // console.log('an error occurred', err);
-    return {};
+
+  } catch (error) {
+    console.error(`Error fetching user ${username}:`, error);
+    throw error;
   }
 };
 

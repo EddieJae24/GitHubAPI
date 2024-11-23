@@ -8,6 +8,7 @@ import SavedCandidates from './pages/SavedCandidates.tsx';
 import ErrorPage from './pages/ErrorPage.tsx';
 
 
+
 const router = createBrowserRouter([
   {
     path: '/',

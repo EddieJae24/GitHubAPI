@@ -22,25 +22,43 @@ function SavedCandidates() {
     <div>
       <h1>Potential Candidates</h1>
       {savedCandidates.length > 0 ? (
-        <ul>
-          {savedCandidates.map((candidate) => (
-            <li key={candidate.id}>
-              <img src={candidate.avatar_url ?? ''} alt={candidate.name ?? ''} width="50" />
-              <h2>{candidate.name || candidate.login}</h2>
-              <p>Username: {candidate.login}</p>
-              <p>Email: {candidate.email || 'Not provided'}</p>
-              <p>Location: {candidate.location || 'Not provided'}</p>
-              <p>Company: {candidate.company || 'Not provided'}</p>
-              <a href={candidate.html_url ?? ''} target="_blank" rel="noopener noreferrer">
-                GitHub Profile
-              </a>
-              <button onClick={() => removeCandidate(candidate.id ?? 0)}>-</button>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No saved candidates found.</p>
-      )}
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Avatar</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Location</th>
+              <th>Company</th>
+              <th>Profile</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          
+          <tbody>
+            {savedCandidates.map((candidate) => (
+              <tr key={candidate.id}>
+                <td>
+                  <img src={candidate.avatar_url ?? ''} alt={candidate.name ?? ''} width="50" />
+                </td>
+                <td>{candidate.name || candidate.login}</td>
+                <td>{candidate.email || 'Not provided'}</td>
+                <td>{candidate.location || 'Not provided'}</td>
+                <td>{candidate.company || 'Not provided'}</td>
+                <td>
+                  <a href={candidate.html_url ?? ''} target="_blank" rel="noopener noreferrer">
+                    GitHub Profile
+                  </a>
+                </td>
+                <td>
+                  <button onClick={() => removeCandidate(candidate.id ?? 0)}>-</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>) : (<p>No saved candidates found.</p>)}
+        
     </div>
   );
 }

@@ -16,13 +16,11 @@ const Nav = () => {
         
         <li className='nav-item'>
           <h2>
-            <Link to='/PotentialCandidates' className={currentPage=== '/PotentialCandidates' ? 'nav-link active' : 'nav-link'}>Potential Candidates</Link>
+            <Link to='/SavedCandidates' className={currentPage=== '/SavedCandidates' ? 'nav-link active' : 'nav-link'}>Potential Candidates</Link>
           </h2>
           
         </li>
-        <li>
-          <Link to="/saved">Saved Candidates</Link>
-        </li>
+       
       </ul>
     </nav>
   );
