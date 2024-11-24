@@ -9,7 +9,13 @@ const CandidateSearch = () => {
         ({id: 0, 
           login: '', 
           avatar_url: '', 
-          html_url:''});
+          html_url:'',
+          name: '',
+          location: '',
+          email: '',
+          company: '',
+        
+        });
             
   const [searchInput, setSearchInput] = useState<string>('');
   const [candidates, setCandidates] = useState<Candidate[]>([]);

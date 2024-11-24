@@ -33,7 +33,7 @@ function SavedCandidates() {
               <th>Location</th>
               <th>Company</th>
               <th>GitHub Profile</th>
-              <th>Actions</th>
+              <th>Remove</th>
             </tr>
           </thead>
           
