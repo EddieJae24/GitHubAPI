@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 
 
 
+
 // https://vitejs.dev/config/
 export default defineConfig({
   envDir: './environment',
@@ -11,12 +12,13 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3001', // Backend server
-        changeOrigin: true,
-      },
-    },
+    host: '0.0.0.0',
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:3001', // Backend server
+    //     changeOrigin: true,
+    //   },
+    // },
   },
 });
 
